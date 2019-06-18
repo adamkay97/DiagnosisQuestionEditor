@@ -1,0 +1,28 @@
+.jfx-button:hover{
+    -fx-background-color: #1E90FF;
+    -fx-text-fill:#ffffff;
+}
+
+.jfx-button .logout{
+    -fx-image: url("../Icons/sign-out-icon.png");
+}
+
+.jfx-button:hover .logout{
+    -fx-image: url("../Icons/sign-out-icon-white.png");
+}
+
+.jfx-button .maximize{
+    -fx-image: url("../Icons/window-maximize.png");
+}
+
+.jfx-button:hover .maximize{
+    -fx-image: url("../Icons/window-maximize-white.png");
+}
+
+.jfx-button .restore{
+    -fx-image: url("../Icons/window-restore.png");
+}
+
+.jfx-button:hover .restore{
+    -fx-image: url("../Icons/window-restore-white.png");
+}

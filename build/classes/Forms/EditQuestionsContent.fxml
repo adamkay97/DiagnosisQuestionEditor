@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" prefHeight="615.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditQuestionsContentController">
+   <children>
+      <AnchorPane layoutX="29.0" layoutY="76.0" prefHeight="472.0" prefWidth="1540.0" style="-fx-border-color: #696969; -fx-border-radius: 10px; -fx-border-width: 5px;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="76.0">
+         <children>
+            <StackPane layoutX="20.0" layoutY="7.0" prefHeight="80.0" prefWidth="680.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox alignment="CENTER" fillWidth="false" prefHeight="78.0" prefWidth="597.0">
+                     <children>
+                        <Pane prefHeight="78.0" prefWidth="775.0">
+                           <children>
+                              <Button fx:id="btnDeleteQuestions" layoutX="422.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnDeleteQuestions_Action" prefHeight="34.0" prefWidth="95.0" stylesheets="@../Styles/MedRedBtnStyles.css" text="Delete" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                              <JFXComboBox fx:id="cmbBoxQuestionSet" focusColor="DODGERBLUE" layoutX="189.0" layoutY="28.0" prefHeight="31.0" prefWidth="223.0" />
+                              <Label id="S11" layoutX="44.0" layoutY="30.0" text="Question Set:">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Button id="S16" fx:id="btnAddLanguage" layoutX="551.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnAddLanguage_Action" prefHeight="47.0" prefWidth="181.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Add Language" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+            <StackPane layoutX="14.0" layoutY="102.0" prefHeight="327.0" prefWidth="683.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <ScrollPane fx:id="scrlGridHolder" prefHeight="386.0" prefWidth="1520.0" stylesheets="@../Styles/ScrollPaneStyles.css">
+                     <content>
+                        <GridPane fx:id="grdPnQuestionSet" alignment="CENTER" gridLinesVisible="true" prefHeight="346.0" prefWidth="1516.0">
+                          <rowConstraints>
+                            <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <padding>
+                              <Insets bottom="2.5" left="2.5" right="25.0" top="2.5" />
+                           </padding>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </AnchorPane>
+      <VBox alignment="CENTER" fillWidth="false" layoutX="122.0" layoutY="598.0" prefHeight="56.0" prefWidth="516.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="122.0">
+         <children>
+            <Button id="S16" fx:id="btnSave" mnemonicParsing="false" onAction="#btnSave_Action" prefHeight="41.0" prefWidth="162.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Save" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Label id="S1" fx:id="lblHeader" layoutX="39.0" layoutY="20.0" text="Edit Questions" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB" size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" prefHeight="615.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.StartContentController">
+   <children>
+      <AnchorPane layoutX="158.0" layoutY="45.0" prefHeight="525.0" prefWidth="1248.0" style="-fx-border-color: #696969; -fx-border-radius: 10px; -fx-border-width: 5px;" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="45.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefHeight="497.0" prefWidth="1220.0" spacing="30.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <children>
+                  <Button id="IF3" fx:id="btnCreate" mnemonicParsing="false" onAction="#btnCreate_Action" prefHeight="74.0" prefWidth="520.0" stylesheets="@../Styles/LrgGreenBtnStyles.css" text="Create New Question Set" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+                  <Button id="IF3" fx:id="btnEdit" mnemonicParsing="false" onAction="#btnEdit_Action" prefHeight="74.0" prefWidth="520.0" stylesheets="@../Styles/LrgBlueBtnStyles.css" text="Edit Question Set" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+                  <Button id="IF3" fx:id="btnLanguages" mnemonicParsing="false" onAction="#btnLanguages_Action" prefHeight="74.0" prefWidth="520.0" stylesheets="@../Styles/LrgBlueBtnStyles.css" text="Manage Languages" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+                  <Button id="IF3" fx:id="btnQuit" mnemonicParsing="false" onAction="#btnQuit_Action" prefHeight="74.0" prefWidth="520.0" stylesheets="@../Styles/LrgRedBtnStyles.css" text="Quit" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

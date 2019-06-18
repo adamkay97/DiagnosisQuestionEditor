@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" prefHeight="615.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateSetContentController">
+   <children>
+      <Label id="S1" fx:id="lblHeader" layoutX="39.0" layoutY="20.0" prefHeight="41.0" prefWidth="289.0" text="Create Questions" wrapText="true">
+         <font>
+            <Font name="Berlin Sans FB" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="29.0" layoutY="76.0" prefHeight="472.0" prefWidth="1540.0" style="-fx-border-color: #696969; -fx-border-radius: 10px; -fx-border-width: 5px;" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="76.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <children>
+            <StackPane layoutX="211.0" layoutY="40.0" prefHeight="412.0" prefWidth="1061.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0">
+               <children>
+                  <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Pane prefHeight="56.0" prefWidth="550.0">
+                           <children>
+                              <Label id="S11" layoutX="20.0" layoutY="15.0" text="Question Set Name:">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="txtSetName" focusColor="DODGERBLUE" layoutX="260.0" layoutY="10.0" prefHeight="36.0" prefWidth="260.0" unFocusColor="BLACK">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="20.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="56.0" prefWidth="550.0">
+                           <children>
+                              <Label id="S11" layoutX="20.0" layoutY="14.0" text="Number of Questions:">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <JFXTextField fx:id="txtNumOfQuestions" focusColor="DODGERBLUE" layoutX="260.0" layoutY="10.0" prefHeight="36.0" prefWidth="260.0" unFocusColor="BLACK">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="20.0" />
+                                 </font>
+                              </JFXTextField>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="56.0" prefWidth="763.0">
+                           <children>
+                              <Label id="S11" layoutX="126.0" layoutY="14.0" prefHeight="27.0" prefWidth="214.0" text="Active Languages:">
+                                 <font>
+                                    <Font name="Berlin Sans FB" size="24.0" />
+                                 </font>
+                              </Label>
+                              <JFXComboBox fx:id="cmbBoxLanguage" focusColor="DODGERBLUE" layoutX="364.0" layoutY="12.0" prefHeight="31.0" prefWidth="260.0" />
+                              <Button id="S16" fx:id="btnAddLanguage" layoutX="655.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnAddLanguage_Action" prefHeight="31.0" prefWidth="88.0" stylesheets="@../Styles/SmlBlueBtnStyles.css" text="Add" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="232.0" prefWidth="446.0">
+                           <children>
+                              <ListView fx:id="listViewLanguages" layoutX="74.0" layoutY="14.0" prefHeight="168.0" prefWidth="299.0" style=": ;" stylesheets="@../Styles/ListViewStyles.css" />
+                              <Button id="S16" fx:id="btnRemoveLanguage" layoutX="180.0" layoutY="194.0" mnemonicParsing="false" onAction="#btnRemoveLanguage_Action" prefHeight="31.0" prefWidth="88.0" stylesheets="@../Styles/SmlRedBtnStyles.css" text="Remove" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </AnchorPane>
+      <VBox alignment="CENTER" fillWidth="false" layoutX="122.0" layoutY="598.0" prefHeight="56.0" prefWidth="516.0" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="122.0">
+         <children>
+            <Pane prefHeight="56.0" prefWidth="546.0">
+               <children>
+                  <Button id="S16" fx:id="btnCreate" layoutX="348.0" layoutY="5.0" mnemonicParsing="false" onAction="#btnCreate_Action" prefHeight="41.0" prefWidth="162.0" stylesheets="@../Styles/MedGreenBtnStyles.css" text="Create" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+                  <Button id="S16" fx:id="btnBack" layoutX="37.0" layoutY="5.0" mnemonicParsing="false" onAction="#btnBack_Action" prefHeight="41.0" prefWidth="162.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Back" textFill="WHITE">
+                     <font>
+                        <Font name="Arial" size="24.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,43 @@
+package Controllers;
+
+import Managers.StageManager;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class StartContentController implements Initializable 
+{
+    @FXML private AnchorPane mainAnchorPane;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+        // TODO
+    }    
+
+    @FXML public void btnCreate_Action(ActionEvent event) 
+    {
+        StageManager.loadContentScene(StageManager.CREATESET);
+    }
+
+    @FXML public void btnEdit_Action(ActionEvent event) 
+    {
+        StageManager.loadContentScene(StageManager.EDITQUESTIONS);
+    }
+    
+    @FXML public void btnLanguages_Action(ActionEvent event) 
+    {
+        StageManager.loadForm(StageManager.MANAGELANGS, new Stage());
+    }
+    
+    @FXML public void btnQuit_Action(ActionEvent event) 
+    {
+        Stage currentStage = (Stage)mainAnchorPane.getScene().getWindow();
+        currentStage.close();
+    }
+
+}
