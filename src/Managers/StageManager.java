@@ -16,6 +16,7 @@ public class StageManager
     public static final String POPUP = "/Forms/PopUpMessage.fxml";
     public static final String EDITQUESTIONS = "/Forms/EditQuestionsContent.fxml";
     public static final String CREATESET = "/Forms/CreateSetContent.fxml"; 
+    public static final String CREATEQUESTIONS = "/Forms/CreateQuestionsContent.fxml"; 
     
     public static final String MANAGELANGS = "/Forms/ManageLanguagesForm.fxml"; 
     

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Managers.QuestionSetManager;
 import Managers.StageManager;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ public class StartContentController implements Initializable
 
     @FXML public void btnEdit_Action(ActionEvent event) 
     {
+        //Set M-CHAT-R/F as the default question set to be editted
+        QuestionSetManager.setCurrentEditSet("M-CHAT-R/F");
         StageManager.loadContentScene(StageManager.EDITQUESTIONS);
     }
     

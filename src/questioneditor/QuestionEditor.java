@@ -28,6 +28,8 @@ public class QuestionEditor extends Application
             dbManager.loadLanguageList();
             dbManager.loadQuestionSetList();
             dbManager.loadQuestionSetMap();
+            
+            dbManager.disconnect();
         }
     }
 

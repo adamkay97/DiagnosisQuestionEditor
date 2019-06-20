@@ -1,6 +1,5 @@
 package Controllers;
 
-import Classes.Language;
 import Enums.ButtonTypeEnum;
 import Managers.DatabaseManager;
 import Managers.QuestionSetManager;
@@ -22,14 +21,12 @@ public class ManageLanguagesFormController implements Initializable
     @FXML private JFXTextField txtLanguage;
     @FXML private ListView<String> listViewLanguages;
     
-    private ArrayList<Language> languagesList;
     private ArrayList<String> languages;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        languagesList = QuestionSetManager.getLanguageList();
-        languages = QuestionSetManager.getAllLanguages();
+        languages = QuestionSetManager.getQuestionLanguages();
         
         listViewLanguages.getItems().addAll(languages);
     }    
@@ -64,7 +61,7 @@ public class ManageLanguagesFormController implements Initializable
                 removeLanguage(language);
             else
             {
-                String msg = "This language cannot be removed as it is being used by a question set.";
+                String msg = "This language cannot be removed as it is being used by a Question Set.";
                 StageManager.loadPopupMessage("Warning", msg, ButtonTypeEnum.OK);
             }
         }
@@ -75,11 +72,8 @@ public class ManageLanguagesFormController implements Initializable
         }
     }
 
-    @FXML public void btnClose_Action(ActionEvent event) 
-    {
-        Stage currentStage = (Stage)mainAnchorPane.getScene().getWindow();
-        currentStage.close();
-    }
+    @FXML public void btnDone_Action(ActionEvent event) { closeForm(); }
+    @FXML public void btnQuit_Action(ActionEvent event) { closeForm(); }
     
     private void addNewLanguage(String language)
     {
@@ -118,15 +112,21 @@ public class ManageLanguagesFormController implements Initializable
     
     private boolean checkLanguageActive(String langName)
     {     
-        for(Language language : languagesList)
+        boolean active = false;
+        DatabaseManager dbManager = new DatabaseManager();
+        
+        if(dbManager.connect())
         {
-            if(language.getLanguage().equals(langName))
-            {
-                //If language to be removed is being used in a question return true
-                if(!language.getActiveQuestionSets().isEmpty())
-                    return true;
-            }
+            active = dbManager.getLanguageActive(langName);
+            dbManager.disconnect();
         }
-        return false;
+        
+        return active;
+    }
+    
+    private void closeForm()
+    {
+        Stage currentStage = (Stage)mainAnchorPane.getScene().getWindow();
+        currentStage.close();
     }
 }

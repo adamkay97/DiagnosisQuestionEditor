@@ -1,8 +1,5 @@
 package Managers;
 
-//import Classes.FormText;
-//import Classes.PopupText;
-import Classes.Language;
 import Classes.Question;
 import Classes.QuestionSet;
 import java.sql.Connection;
@@ -12,9 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class DatabaseManager 
 {
@@ -50,7 +45,7 @@ public class DatabaseManager
             ArrayList<String> languageList = QuestionSetManager.getSetLanguages(setName);
             HashMap<Integer, Question> questionList = loadQuestionList(setName, languageList);
             
-            questionSetsMap.put(setName, new QuestionSet(questionList));
+            questionSetsMap.put(setName, new QuestionSet(setName, questionList.size(), questionList, languageList));
         }
         QuestionSetManager.setQuestionSetsMap(questionSetsMap);
     }
@@ -59,21 +54,19 @@ public class DatabaseManager
     {
         HashMap<Integer, Question> questionMap = new HashMap<>();
         
-        String query = "SELECT * FROM QuestionList WHERE DiagnosisName = ?";
+        String query = String.format("SELECT * FROM `%s`", diagnosisName);
         
         //Loads all the questions in to the questionMap so it can be used 
         //in the questionaire form for the specific diagnosis.
-        try(PreparedStatement pstmt = conn.prepareStatement(query))
-        {    
-            pstmt.setString(1, diagnosisName);
-            ResultSet results = pstmt.executeQuery();
-            
+        try(Statement stmt = conn.createStatement(); 
+                ResultSet results = stmt.executeQuery(query))
+        {
             while(results.next())
             {
                 HashMap<String, String> texts = new HashMap<>();
                 HashMap<String, String> instructions = new HashMap<>();
                 
-                int qNumber = results.getInt("QuestionNumber");
+                int qNumber = results.getInt("QuestionID");
                 String qBehaviour = results.getString("BehaviourName");
                 
                 for(String language : languageList)
@@ -85,7 +78,6 @@ public class DatabaseManager
                 }
                 
                 Question q = new Question(qNumber, qBehaviour, texts, instructions);
-                
                 questionMap.put(qNumber, q);
             }
             return questionMap;
@@ -101,14 +93,14 @@ public class DatabaseManager
     {
         ArrayList<String> questionSetList = new ArrayList<>();
         
-        String query = "SELECT DISTINCT DiagnosisName FROM QuestionList";
+        String query = "SELECT * FROM QuestionSets";
         
         try(Statement stmt = conn.createStatement(); 
                 ResultSet results = stmt.executeQuery(query)) 
         {    
             while(results.next())
             {
-                String name = results.getString("DiagnosisName");
+                String name = results.getString("SetName");
                 questionSetList.add(name);
             }
             QuestionSetManager.setQuestionSets(questionSetList);
@@ -121,74 +113,26 @@ public class DatabaseManager
     
     public void loadLanguageList()
     {
-        ArrayList<Language> languageList = new ArrayList<>();
+        ArrayList<String> languageList = new ArrayList<>();
         
-        String query = "SELECT * FROM Languages";
+        String query = "SELECT * FROM QuestionLanguages";
         
         try(Statement stmt = conn.createStatement(); 
                 ResultSet results = stmt.executeQuery(query)) 
         {    
             while(results.next())
-            {
-                ArrayList<String> questionSets = new ArrayList<>();
-                
+            {                
                 String lang = results.getString("Language");
-                String sets = results.getString("ActiveQuestionSets");
-                
-                //If the active sets is empty skip and add empty list to language object
-                if(!sets.equals(""))
-                {
-                    //If sets contains multiple active sets create new array list
-                    //Else just add the singluar set to the list
-                    if(sets.contains(","))
-                    {
-                        //Split the sets and create new array list of different sets used
-                        String[] setsArray = sets.split(",");
-                        questionSets = new ArrayList<>(Arrays.asList(setsArray));
-                    }
-                    else
-                        questionSets.add(sets);
-                }
-                
-                //Create new language object and add to language list
-                Language language = new Language(lang, questionSets);
-                languageList.add(language);
+                languageList.add(lang);
             }
             //Set language list on QuestionSetManager
-            QuestionSetManager.setLanguageList(languageList);
+            QuestionSetManager.setQuestionLanguages(languageList);
         }
         catch(SQLException ex)
         {
             System.out.println("Error when reading the Languages from the db - " + ex.getMessage());
         }
     }
-    
-    /*public User loadUser(int userId)
-    {
-        String query = "SELECT * FROM Users WHERE UserID = ?";
-        
-        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
-        {    
-            pstmt.setInt(1, userId);
-            ResultSet results = pstmt.executeQuery();
-            
-            while(results.next())
-            {
-                String uname = results.getString("Username");
-                String pword = results.getString("HashPassword");
-                String fname = results.getString("FirstName");
-                String lname = results.getString("LastName");
-                User user = new User(userId, uname, pword, fname, lname);
-                
-                return user;
-            }
-        }
-        catch(SQLException ex)
-        {
-             System.out.println("Error when reading the user from the db - " + ex.getMessage());
-        }
-        return null;
-    }*/
     
     /*public ArrayList<String> loadInformationData(String pageName)
     {
@@ -217,9 +161,84 @@ public class DatabaseManager
         return null;
     }*/
     
+    public boolean createNewSetTable(QuestionSet questionSet)
+    {
+        boolean success = true;
+        
+        //Start query with two fixed columns (id and Behaviour Name)
+        String query = "CREATE TABLE `" + questionSet.getSetName() + "` "
+        + "(`QuestionID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, "
+        + "`BehaviourName` TEXT NOT NULL";
+        
+        //For each active language append to query string the Question Text and Instruction with language.
+        for(String lang : questionSet.getActiveLanguages())
+        {
+            query += String.format(", `QuestionText-%s` TEXT NOT NULL, "
+                                 + "`QuestionInstruction-%s` TEXT NOT NULL", lang, lang);
+        }
+        query += ")"; 
+        
+        try(Statement stmt = conn.createStatement())
+        {
+            stmt.executeUpdate(query);
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when creating new Question Set table in the db - " + ex.getMessage());
+            success = false;
+        }
+        return success;
+    }
+    
+    public boolean writeNewQuestionSet(QuestionSet questionSet)
+    {
+        ArrayList<String> langList = questionSet.getActiveLanguages();
+        
+        String query = "INSERT INTO `" + questionSet.getSetName() + "` (`BehaviourName`";
+        
+        //For each active language append to query string the Question Text and Instruction with language.
+        for(String lang : langList)
+            query += String.format(", `QuestionText-%s`, `QuestionInstruction-%s`", lang, lang);
+        
+        query += ") VALUES (?";
+        
+        for(String lang : langList)
+            query += ", ?, ?";
+        
+        query += ")";
+        
+        HashMap<Integer, Question> qMap = questionSet.getQuestionSet();
+        for (int i = 1; i <= questionSet.getNumberOfQuestions(); i++) 
+        {
+            Question q = qMap.get(i);
+            try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+            {    
+                pstmt.setString(1, q.getQuestionBehaviour());
+                
+                int index = 2;
+                for(String lang : langList)
+                {
+                    pstmt.setString(index, q.getQuestionText(lang));
+                    pstmt.setString(index+1, q.getQuestionInstructions(lang));
+                    index += 2;
+                }
+                
+                System.out.println(pstmt.toString());
+                pstmt.executeUpdate();
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("Error when inserting new question row to "
+                                + "new question set in the db - " + ex.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public void writeNewLanguage(String language)
     {
-        String query = "INSERT INTO Languages (Language) VALUES (?)";
+        String query = "INSERT INTO QuestionLanguages (Language) VALUES (?)";
         
         try(PreparedStatement pstmt = conn.prepareStatement(query)) 
         {    
@@ -232,9 +251,108 @@ public class DatabaseManager
         }
     }
     
+    public void writeNewSetName(String setName)
+    {
+        String query = "INSERT INTO QuestionSets (SetName) VALUES (?)";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            pstmt.executeUpdate();
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when writing new Question Set Name to the db - " + ex.getMessage());
+        }
+    }
+    
+    public void writeNewSetLanguages(QuestionSet qSet)
+    {
+        String query = "INSERT INTO QuestionSetLanguages (QuestionSetID, QuestionLanguageID) VALUES " +
+                       "((SELECT QuestionSetID FROM QuestionSets WHERE SetName = ?), " +
+                       "(SELECT QuestionLanguageID FROM QuestionLanguages WHERE Language = ?))";
+        
+        qSet.getActiveLanguages().forEach((language) -> 
+        {
+            try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+            {    
+                pstmt.setString(1, qSet.getSetName());
+                pstmt.setString(2, language);
+                pstmt.executeUpdate();
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("Error when writing Set Name and Language to SetLanguage link table to the db - " + ex.getMessage());
+            }
+        });
+    }
+    
+    public ArrayList<String> getSetLanguages(String setName)
+    {
+        ArrayList<String> setLanguages = new ArrayList<>();
+        
+        String query = "SELECT s.SetName, l.Language FROM QuestionSetLanguages sl " +
+                       "JOIN QuestionSets s on sl.QuestionSetID = s.QuestionSetID " +
+                       "JOIN QuestionLanguages l on sl.QuestionLanguageID = l.QuestionLanguageID " +
+                       "WHERE s.SetName = ?";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            ResultSet results = pstmt.executeQuery();
+            
+            while(results.next())
+            {
+                String language = results.getString("Language");
+                setLanguages.add(language);
+            }
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when getting question set languages to the db - " + ex.getMessage());
+        }
+        return setLanguages;
+    }
+    
+    public boolean getLanguageActive(String language)
+    {
+        String query = "SELECT s.SetName FROM QuestionSetLanguages sl " +
+                       "JOIN QuestionSets s on sl.QuestionSetID = s.QuestionSetID " +
+                       "JOIN QuestionLanguages l on sl.QuestionLanguageID = l.QuestionLanguageID " +
+                       "WHERE l.Language = ?";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, language);
+            ResultSet results = pstmt.executeQuery();
+            
+            if(results.next())
+                return true;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when checking language active in the db - " + ex.getMessage());
+        }
+        return false;
+    }
+    
+    public void deleteQuestionSetTable(String setName)
+    {
+        String query = String.format("DROP TABLE IF EXISTS `%s`", setName);
+        
+        try(Statement stmt = conn.createStatement())
+        {
+            stmt.executeUpdate(query);
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when dropping Question Set table in the db - " + ex.getMessage());
+        }
+    }
+    
     public void deleteLanguage(String language)
     {
-        String query = "DELETE FROM Languages WHERE Language = ?";
+        String query = "DELETE FROM QuestionLanguages WHERE Language = ?";
         
         try(PreparedStatement pstmt = conn.prepareStatement(query)) 
         {    

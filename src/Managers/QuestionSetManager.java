@@ -1,49 +1,44 @@
 package Managers;
 
-import Classes.Language;
-import Classes.Question;
 import Classes.QuestionSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class QuestionSetManager 
 {
-    private static ArrayList<Language> languageList;
+    private static ArrayList<String> questionLanguages;
     private static ArrayList<String> questionSets;
     private static HashMap<String, QuestionSet> questionSetsMap;
+    private static String currentEditSet;
     
-    public static void setLanguageList(ArrayList<Language> languages) { languageList = languages; }
-    public static void setQuestionSetsMap(HashMap<String, QuestionSet> questions) { questionSetsMap = questions; }
+    public static void setQuestionLanguages(ArrayList<String> languages) { questionLanguages = languages; }
     public static void setQuestionSets(ArrayList<String> qSets) { questionSets = qSets; }
     
-    public static HashMap<Integer, Question> getQuestionSet(String setName)
-    {
-        return questionSetsMap.get(setName).getQuestionSet();
-    }
+    public static void setQuestionSetsMap(HashMap<String, QuestionSet> questions) { questionSetsMap = questions; }
     
-    public static ArrayList<String> getAllLanguages()
+    public static void setCurrentEditSet(String set) { currentEditSet = set; }
+    
+    public static QuestionSet getQuestionSet(String setName)
     {
-        ArrayList<String> languages = new ArrayList<>();
-        
-        for(Language language : languageList)
-            languages.add(language.getLanguage());
-        
-        return languages;
+        //return questionSetsMap.get(setName).getQuestionSet();
+         return questionSetsMap.get(setName);
     }
     
     public static ArrayList<String> getSetLanguages(String setName)
     {
-        ArrayList<String> setLanguage = new ArrayList<>();
+        ArrayList<String> setLanguages = new ArrayList<>();
         
-        for(Language language : languageList)
+        DatabaseManager dbManager = new DatabaseManager();
+        if(dbManager.connect())
         {
-            if(language.getActiveQuestionSets().contains(setName))
-                setLanguage.add(language.getLanguage());
+            setLanguages = dbManager.getSetLanguages(setName);
+            dbManager.disconnect();
         }
-        return setLanguage;
+        return setLanguages;
     }
     
-    public static ArrayList<Language> getLanguageList() { return languageList; }
+    public static ArrayList<String> getQuestionLanguages() { return questionLanguages; }
     public static HashMap<String, QuestionSet> getQuestionMap() { return questionSetsMap; }
     public static ArrayList<String> getQuestionSets() { return questionSets; }
+    public static String getCurrentEditSet() { return currentEditSet; }
 }
