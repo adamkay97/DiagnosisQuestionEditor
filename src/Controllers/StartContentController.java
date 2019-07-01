@@ -15,10 +15,7 @@ public class StartContentController implements Initializable
     @FXML private AnchorPane mainAnchorPane;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
-        // TODO
-    }    
+    public void initialize(URL url, ResourceBundle rb) {}    
 
     @FXML public void btnCreate_Action(ActionEvent event) 
     {
@@ -28,7 +25,7 @@ public class StartContentController implements Initializable
     @FXML public void btnEdit_Action(ActionEvent event) 
     {
         //Set M-CHAT-R/F as the default question set to be editted
-        QuestionSetManager.setCurrentEditSet("M-CHAT-R/F");
+        QuestionSetManager.setCurrentEditSet(QuestionSetManager.DEFAULTSET);
         StageManager.loadContentScene(StageManager.EDITQUESTIONS);
     }
     

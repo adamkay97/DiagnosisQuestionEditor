@@ -53,7 +53,7 @@
                      <content>
                         <GridPane fx:id="grdPnQuestionSet" alignment="CENTER" gridLinesVisible="true" prefHeight="346.0" prefWidth="1516.0">
                           <rowConstraints>
-                            <RowConstraints maxHeight="55.0" minHeight="55.0" prefHeight="55.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="75.0" minHeight="75.0" prefHeight="75.0" valignment="CENTER" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <padding>
                               <Insets bottom="2.5" left="2.5" right="25.0" top="2.5" />

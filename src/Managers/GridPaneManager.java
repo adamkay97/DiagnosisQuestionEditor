@@ -20,6 +20,8 @@ public class GridPaneManager
     private final GridPane grdPnQuestionSet;
     private final boolean isEditContent;
     
+    private int currentColCount;
+    
     public GridPaneManager(QuestionSet questionSet, GridPane gridPane, boolean isEdit)
     {
         currentQuestionSet = questionSet;
@@ -120,6 +122,9 @@ public class GridPaneManager
                 grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
             }
             
+            //Set currentColCount for if new language columns are to be added
+            currentColCount = index;
+            
             //for each question
             for (int i = 1; i <= qCount; i++) 
             {
@@ -148,17 +153,25 @@ public class GridPaneManager
         } 
     }
     
-    public void clearGridPaneContents()
+    public void addNewLanguageColumns(String language)
     {
-        while(grdPnQuestionSet.getRowConstraints().size() > 0){
-            grdPnQuestionSet.getRowConstraints().remove(0);
-        }
+        String header = String.format("Text - %s (Required)", language);
+        grdPnQuestionSet.add(createHeaderLabel(header, 450), currentColCount, 0);
+        grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
 
-        while(grdPnQuestionSet.getColumnConstraints().size() > 0){
-            grdPnQuestionSet.getColumnConstraints().remove(0);
-        }
+        header = String.format("Instructions - %s", language);
+        grdPnQuestionSet.add(createHeaderLabel(header , 450), currentColCount+1, 0);
+        grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
         
-        grdPnQuestionSet.getChildren().clear();
+        for (int i = 1; i <= currentQuestionSet.getNumberOfQuestions(); i++) 
+        {
+             TextArea text = createTextArea("");
+             TextArea instr = createTextArea("");
+             
+             grdPnQuestionSet.add(text, currentColCount, i);
+             grdPnQuestionSet.add(instr, currentColCount+1, i);
+        }
+        currentColCount += 2;
     }
     
     private TextArea createTextArea(String text)

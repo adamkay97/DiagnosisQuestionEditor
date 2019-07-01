@@ -1,8 +1,8 @@
 package Controllers;
 
-import Classes.Question;
 import Classes.QuestionSet;
 import Enums.ButtonTypeEnum;
+import Managers.DatabaseManager;
 import Managers.QuestionSetManager;
 import Managers.StageManager;
 import com.jfoenix.controls.JFXComboBox;
@@ -31,6 +31,12 @@ public class CreateSetContentController implements Initializable
     {
         cmbBoxLanguage.getItems().addAll(QuestionSetManager.getQuestionLanguages());
         cmbBoxLanguage.setStyle("-fx-font: 20px \"Berlin Sans FB\";");
+        
+        QuestionSet currentSet = QuestionSetManager.getCurrentCreateSet();
+        
+        if(currentSet != null)
+            loadCurrentSet(currentSet);
+        
     }    
     
     @FXML public void btnCreate_Action(ActionEvent event) 
@@ -81,21 +87,17 @@ public class CreateSetContentController implements Initializable
         });
         
         QuestionSet questionSet = new QuestionSet(setName, numOfQs, new HashMap<>(), languages);
+        questionSet.setInformation(null);
+        QuestionSetManager.setCurrentCreateSet(questionSet);
         
-        try 
-        {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Forms/CreateQuestionsContent.fxml"));
-            Parent root = (Parent)loader.load();
-            
-            CreateQuestionsContentController createQuestions = loader.<CreateQuestionsContentController>getController();
-            createQuestions.setupCreateQuestionsContent(questionSet);
-            
-            StageManager.loadContentSceneParent(root);
-        } 
-        catch (IOException ex) 
-        {
-            System.out.println("Error when loading Create Questions content - " + ex.getMessage());
-        }
+        StageManager.loadContentScene(StageManager.CREATEINFO);
+    }
+    
+    private void loadCurrentSet(QuestionSet qSet)
+    {
+        txtSetName.setText(qSet.getSetName());
+        txtNumOfQuestions.setText(Integer.toString(qSet.getNumberOfQuestions()));
+        listViewLanguages.getItems().setAll(qSet.getActiveLanguages());
     }
     
     private boolean validateUserInput()
@@ -103,6 +105,12 @@ public class CreateSetContentController implements Initializable
         if(txtSetName.getText().equals(""))
         {
             StageManager.loadPopupMessage("Warning", "Please enter a valid Set Name.", ButtonTypeEnum.OK);
+            return false;
+        }
+        
+        if(checkSetNameExists(txtSetName.getText()))
+        {
+            StageManager.loadPopupMessage("Warning", "This name is already used for another question set.", ButtonTypeEnum.OK);
             return false;
         }
         
@@ -120,6 +128,19 @@ public class CreateSetContentController implements Initializable
         }
         
         return true;
+    }
+    
+    private boolean checkSetNameExists(String name)
+    {
+        boolean exists = false;
+        DatabaseManager dbManager = new DatabaseManager();
+        
+        if(dbManager.connect())
+        {
+            exists = dbManager.checkSetNameExists(name);
+            dbManager.disconnect();
+        }
+        return exists;
     }
     
     private boolean isNumeric(String number) 

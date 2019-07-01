@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainAnchorPane" prefHeight="347.0" prefWidth="630.0" stylesheets="@../Styles/RootPaneStyles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EditAddLanguageFormController">
+   <children>
+      <Pane fx:id="pnlMessageContent" layoutX="28.0" layoutY="125.0" prefHeight="128.0" prefWidth="575.0" style="-fx-border-color: #696969; -fx-border-width: 5px; -fx-border-radius: 15px;" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="125.0">
+         <children>
+            <Label fx:id="lblMessage" alignment="CENTER" layoutX="95.0" layoutY="46.0" prefHeight="36.0" prefWidth="119.0" text="Language:" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="Berlin Sans FB" size="22.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="cmbBoxLanguage" focusColor="DODGERBLUE" layoutX="220.0" layoutY="48.0" prefHeight="31.0" prefWidth="260.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="1.0" layoutY="-1.0" prefHeight="111.0" prefWidth="587.0" style="-fx-background-color: #1E90FF;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblPopupHeader" layoutX="36.0" layoutY="39.0" text="Add Language" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Berlin Sans FB" size="28.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="btnQuit" layoutX="575.0" layoutY="4.0" onAction="#btnQuit_Action" prefHeight="46.0" prefWidth="45.0" ripplerFill="WHITE" text="X" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Verdana Bold" size="24.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Pane fx:id="pnlYesNoBtn" layoutX="125.0" layoutY="533.0" prefHeight="72.0" prefWidth="381.0" AnchorPane.bottomAnchor="11.0">
+         <children>
+            <Button id="P3" fx:id="btnClose" layoutX="71.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnClose_Action" prefHeight="20.0" prefWidth="99.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Close" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font>
+            </Button>
+            <Button id="P2" fx:id="btnAdd" layoutX="212.0" layoutY="13.0" mnemonicParsing="false" onAction="#btnAdd_Action" prefHeight="20.0" prefWidth="99.0" stylesheets="@../Styles/MedGreenBtnStyles.css" text="Add" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -287,6 +287,26 @@ public class DatabaseManager
         });
     }
     
+    public void writeQuestionInformation(String setName, String information)
+    {
+        String[] infoList = information.split("\n");
+        String query = String.format("INSERT INTO RichTextData (`PageName`, `InfoText-English`) VALUES (?, ?)", setName);
+        
+        for(String info : infoList)
+        {
+            try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+            {    
+                pstmt.setString(1, setName);
+                pstmt.setString(2, info);
+                pstmt.executeUpdate();
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("Error when writing information data to the db - " + ex.getMessage());
+            }
+        }
+    }
+    
     public ArrayList<String> getSetLanguages(String setName)
     {
         ArrayList<String> setLanguages = new ArrayList<>();
@@ -336,6 +356,33 @@ public class DatabaseManager
         return false;
     }
     
+    public boolean checkSetNameExists(String setName)
+    {
+        String query = "SELECT * FROM QuestionSets WHERE SetName = ?";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            ResultSet results = pstmt.executeQuery();
+            
+            if(results.next())
+                return true;
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when checking if set name exists in the db - " + ex.getMessage());
+        }
+        return false;
+    }
+    
+    public void deleteAllSetData(String setName)
+    {
+        deleteQuestionInfo(setName);
+        deleteQuestionSetTable(setName);
+        deleteQuestionSetLanguage(setName);
+        deleteQuestionSet(setName);
+    }
+    
     public void deleteQuestionSetTable(String setName)
     {
         String query = String.format("DROP TABLE IF EXISTS `%s`", setName);
@@ -347,6 +394,37 @@ public class DatabaseManager
         catch(SQLException ex)
         {
             System.out.println("Error when dropping Question Set table in the db - " + ex.getMessage());
+        }
+    }
+    
+    private void deleteQuestionSetLanguage(String setName)
+    {
+        String query = "DELETE FROM QuestionSetLanguages WHERE QuestionSetID = "
+                     + "(SELECT QuestionSetID FROM QuestionSets WHERE SetName = ?)";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            pstmt.executeUpdate();
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when deleting a Question Set from Set/Language link table in the db - " + ex.getMessage());
+        }
+    }
+    
+    private void deleteQuestionSet(String setName)
+    {
+        String query = "DELETE FROM QuestionSets WHERE SetName = ?";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            pstmt.executeUpdate();
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when deleting a Set Name from the db - " + ex.getMessage());
         }
     }
     
@@ -362,6 +440,21 @@ public class DatabaseManager
         catch(SQLException ex)
         {
             System.out.println("Error when deleting a Language from the db - " + ex.getMessage());
+        }
+    }
+    
+    public void deleteQuestionInfo(String setName)
+    {
+        String query = "DELETE FROM RichTextData WHERE PageName = ?";
+        
+        try(PreparedStatement pstmt = conn.prepareStatement(query)) 
+        {    
+            pstmt.setString(1, setName);
+            pstmt.executeUpdate();
+        }
+        catch(SQLException ex)
+        {
+            System.out.println("Error when deleting question information from the db - " + ex.getMessage());
         }
     }
     

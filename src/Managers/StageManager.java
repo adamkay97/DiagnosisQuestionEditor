@@ -15,8 +15,10 @@ public class StageManager
     public static final String START = "/Forms/StartContent.fxml";
     public static final String POPUP = "/Forms/PopUpMessage.fxml";
     public static final String EDITQUESTIONS = "/Forms/EditQuestionsContent.fxml";
+    public static final String ADDLANGUAGE = "/Forms/EditAddLanguageForm.fxml";
     public static final String CREATESET = "/Forms/CreateSetContent.fxml"; 
     public static final String CREATEQUESTIONS = "/Forms/CreateQuestionsContent.fxml"; 
+    public static final String CREATEINFO = "/Forms/CreateInformationContent.fxml";
     
     public static final String MANAGELANGS = "/Forms/ManageLanguagesForm.fxml"; 
     
@@ -148,10 +150,41 @@ public class StageManager
             
             setFormMoveHandlers(root, stage);
             
-            //rootScene = newScene;
+            
             stage.initStyle(StageStyle.UNDECORATED);
+            
+            //If not primary stage don't allow any action until current form has been closed
+            if(!formPath.equals(StageManager.MAIN))
+                stage.initModality(Modality.APPLICATION_MODAL);
+            
             stage.setScene(newScene);
             stage.show();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Failed loading other form - " + ex.getMessage());
+        }
+    }
+    
+    /**
+     * Loads new form using Parent object passed to function
+     * Used when forms require data to be passed to it before loading
+     * @param root Parent object containing the content of the form
+     * @param stage New stage for the form to be loaded to
+     */
+    public static void loadFormParent(Parent root, Stage stage)
+    {
+         try
+        {
+            Scene newScene = new Scene(root);
+            
+            setFormMoveHandlers(root, stage);
+            
+            //rootScene = newScene;
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(newScene);
+            stage.showAndWait();
         }
         catch(Exception ex)
         {

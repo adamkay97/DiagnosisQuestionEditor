@@ -29,7 +29,7 @@
                                     <Font name="Berlin Sans FB" size="24.0" />
                                  </font>
                               </Label>
-                              <Label id="S11" fx:id="lblSetName" alignment="CENTER" layoutX="365.0" layoutY="12.0" prefHeight="41.0" prefWidth="243.0" text="SET NAME" underline="true">
+                              <Label id="S11" fx:id="lblSetName" alignment="CENTER" layoutX="369.0" layoutY="12.0" prefHeight="41.0" prefWidth="243.0" text="SET NAME" underline="true">
                                  <font>
                                     <Font name="Berlin Sans FB" size="28.0" />
                                  </font>
