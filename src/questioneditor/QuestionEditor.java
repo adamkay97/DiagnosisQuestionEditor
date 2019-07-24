@@ -1,7 +1,12 @@
-package questioneditor;
+package QuestionEditor;
 
 import Managers.DatabaseManager;
+import Managers.SettingsManager;
 import Managers.StageManager;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,6 +20,7 @@ public class QuestionEditor extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
+        setLocalisedDBPath();
         loadDatabaseData();
         StageManager.loadForm(StageManager.MAIN, stage);
     }
@@ -33,6 +39,24 @@ public class QuestionEditor extends Application
         }
     }
 
-    
-    
+    private void setLocalisedDBPath()
+    {
+        try
+        {
+            //Get directory of current FYP class
+            Path path = Paths.get(new File(QuestionEditor.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath());
+            
+            //Go up two directories
+            path = path.getParent().getParent();
+            
+            //Append the Database location to the path
+            String dbPath = path.resolve("Database/DiagnosisData.db").toString();
+            
+            SettingsManager.setDBConnString(dbPath);
+        } 
+        catch (URISyntaxException ex) 
+        {
+            System.out.println("Failed when getting localised DatabasePath");
+        }
+    }
 }
