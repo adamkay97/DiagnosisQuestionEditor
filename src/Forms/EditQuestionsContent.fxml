@@ -23,7 +23,7 @@
                <children>
                   <VBox alignment="CENTER" fillWidth="false" prefHeight="78.0" prefWidth="597.0">
                      <children>
-                        <Pane prefHeight="78.0" prefWidth="775.0">
+                        <Pane prefHeight="78.0" prefWidth="1173.0">
                            <children>
                               <Button fx:id="btnDeleteQuestions" layoutX="422.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnDeleteQuestions_Action" prefHeight="34.0" prefWidth="95.0" stylesheets="@../Styles/MedRedBtnStyles.css" text="Delete" textFill="WHITE">
                                  <font>
@@ -36,7 +36,17 @@
                                     <Font name="Berlin Sans FB" size="24.0" />
                                  </font>
                               </Label>
-                              <Button id="S16" fx:id="btnAddLanguage" layoutX="551.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnAddLanguage_Action" prefHeight="47.0" prefWidth="181.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Add Language" textFill="WHITE">
+                              <Button id="S16" fx:id="btnAddLanguage" layoutX="551.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnAddLanguage_Action" prefHeight="47.0" prefWidth="181.0" stylesheets="@../Styles/MedGreenBtnStyles.css" text="Add Language" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button id="S16" fx:id="btnAlgorithm" layoutX="944.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnAlgorithm_Action" prefHeight="47.0" prefWidth="205.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Scoring Algorithm" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Button>
+                              <Button id="S16" fx:id="btnInformation" layoutX="757.0" layoutY="16.0" mnemonicParsing="false" onAction="#btnInformation_Action" prefHeight="47.0" prefWidth="162.0" stylesheets="@../Styles/MedBlueBtnStyles.css" text="Information" textFill="WHITE">
                                  <font>
                                     <Font name="Arial" size="24.0" />
                                  </font>

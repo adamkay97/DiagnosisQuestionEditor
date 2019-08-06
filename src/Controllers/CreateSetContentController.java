@@ -83,11 +83,11 @@ public class CreateSetContentController implements Initializable
             languages.add(lang);
         });
         
-        QuestionSet questionSet = new QuestionSet(setName, numOfQs, new HashMap<>(), languages);
+        QuestionSet questionSet = new QuestionSet(setName, numOfQs, new HashMap<>(), languages, null, null);
         questionSet.setInformation(null);
         QuestionSetManager.setCurrentCreateSet(questionSet);
         
-        StageManager.loadContentScene(StageManager.CREATEINFO);
+        StageManager.loadContentScene(StageManager.INFO);
     }
     
     private void loadCurrentSet(QuestionSet qSet)

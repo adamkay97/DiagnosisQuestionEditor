@@ -18,7 +18,8 @@ public class StageManager
     public static final String ADDLANGUAGE = "/Forms/EditAddLanguageForm.fxml";
     public static final String CREATESET = "/Forms/CreateSetContent.fxml"; 
     public static final String CREATEQUESTIONS = "/Forms/CreateQuestionsContent.fxml"; 
-    public static final String CREATEINFO = "/Forms/CreateInformationContent.fxml";
+    public static final String INFO = "/Forms/InformationContent.fxml";
+    public static final String SCORING = "/Forms/ScoringContent.fxml";
     
     public static final String MANAGELANGS = "/Forms/ManageLanguagesForm.fxml"; 
     

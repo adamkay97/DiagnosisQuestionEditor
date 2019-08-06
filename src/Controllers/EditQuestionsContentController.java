@@ -43,6 +43,7 @@ public class EditQuestionsContentController implements Initializable
     @FXML public void btnSave_Action(ActionEvent event) 
     {
         gridPaneManager.saveGridPane();
+        QuestionSetManager.setInEdit(false);
     }
     
     @FXML public void btnAddLanguage_Action(ActionEvent event) 
@@ -76,16 +77,32 @@ public class EditQuestionsContentController implements Initializable
         } 
     }
     
+    @FXML public void btnInformation_Action(ActionEvent event)
+    {
+        StageManager.loadContentScene(StageManager.INFO);
+    }
+    
+    @FXML public void btnAlgorithm_Action(ActionEvent event)
+    {
+        StageManager.loadContentScene(StageManager.SCORING);
+    }
+    
     @FXML public void btnBack_Action(ActionEvent event) 
     {
         String msg = "Are you sure you wish to go back? Any unsaved progress will be lost.";
         
         if(popupConfirmation(msg))
+        {
             StageManager.loadContentScene(StageManager.START);
+            QuestionSetManager.setInEdit(false);
+        }
     }
     
     private void setupEditQuestionsForm()
     {
+        //Change static boolean on manager to show that edit form is being used
+        QuestionSetManager.setInEdit(true);
+        
         currentSet = QuestionSetManager.getCurrentEditSet();
         newLanguage = "";
         

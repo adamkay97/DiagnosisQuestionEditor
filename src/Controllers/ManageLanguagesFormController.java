@@ -100,6 +100,7 @@ public class ManageLanguagesFormController implements Initializable
         {
             //Delete the language from the database then reload the language list
             dbManager.deleteLanguage(language);
+            dbManager.resetSequenceID("QuestionLanguages");
             dbManager.loadLanguageList();
             
             //Remove the language from the list view

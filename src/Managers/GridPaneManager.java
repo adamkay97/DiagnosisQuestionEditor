@@ -3,6 +3,7 @@ package Managers;
 import Classes.Question;
 import Classes.QuestionSet;
 import Enums.ButtonTypeEnum;
+import com.jfoenix.controls.JFXComboBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.geometry.HPos;
@@ -43,6 +44,8 @@ public class GridPaneManager
         HashMap<Integer, Label> qNumMap = new HashMap<>();
         //HashMap for the text areas containing the Robot behaviour name
         HashMap<Integer, TextArea> qBehaviourMap = new HashMap<>();
+        //HashMap for the combobox containing the at risk response
+        HashMap<Integer, JFXComboBox> qRiskResponse = new HashMap<>();
         
         //HashMap containing the language and HashMap with the TextAreas that hold the question text 
         HashMap<String, HashMap<Integer, TextArea>> qTextMap = new HashMap<>();
@@ -66,6 +69,9 @@ public class GridPaneManager
             //Create TextArea for NAO Behvaiour Name
             TextArea behaviourText = createTextArea(text);
             qBehaviourMap.put(i, behaviourText);
+            
+            JFXComboBox riskResponse = createComboBox();
+            qRiskResponse.put(i, riskResponse);
         }
         
         //For each language have seperate maps containing TextAreas
@@ -122,6 +128,9 @@ public class GridPaneManager
                 grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
             }
             
+            grdPnQuestionSet.add(createHeaderLabel("At Risk Response", 200), index++, 0);
+            grdPnQuestionSet.getColumnConstraints().add(createColConstraint(200));
+            
             //Set currentColCount for if new language columns are to be added
             currentColCount = index;
             
@@ -139,6 +148,9 @@ public class GridPaneManager
                     grdPnQuestionSet.add(qTextMap.get(languageList.get(j)).get(i), index++, i);
                     grdPnQuestionSet.add(qInstructionsMap.get(languageList.get(j)).get(i), index++, i);
                 }
+                
+                //Add combo box to the end of the row
+                grdPnQuestionSet.add(qRiskResponse.get(i), index++, i);
                 
                 //Create row constraint for the height of the row
                 grdPnQuestionSet.getRowConstraints().add(createRowConstraint(125));
@@ -182,6 +194,17 @@ public class GridPaneManager
         qText.setStyle("-fx-font: 18px \"Berlin Sans FB\";");
         
         return qText;
+    }
+    
+    private JFXComboBox createComboBox()
+    {
+        JFXComboBox qBox = new JFXComboBox();
+        qBox.setPrefWidth(200);
+        qBox.getItems().addAll("Yes", "No");
+        qBox.getSelectionModel().select("No");
+        qBox.setStyle("-fx-font: 24px \"Berlin Sans FB\";");
+        
+        return qBox;
     }
     
     private ColumnConstraints createColConstraint(double size)
@@ -253,8 +276,10 @@ public class GridPaneManager
 
                     index += 2;
                 }
-
-                Question question = new Question(i, behaviourName, questionText, instructionText);
+                
+                String riskResponse = getTextByRowColumn(i, index);
+                
+                Question question = new Question(i, behaviourName, questionText, instructionText, riskResponse);
                 questionMap.put(i, question);
             }
 
@@ -295,10 +320,6 @@ public class GridPaneManager
                         dbManager.writeNewSetName(currentQuestionSet.getSetName());
                         dbManager.writeNewSetLanguages(currentQuestionSet);
                     }
-                    
-                    //Reload the question set list and set map so they contain the new question sets
-                    dbManager.loadQuestionSetList();
-                    dbManager.loadQuestionSetMap();
                 }
                 else
                 {
@@ -326,9 +347,18 @@ public class GridPaneManager
                 int rowIndex = GridPane.getRowIndex(node);
                 int colIndex = GridPane.getColumnIndex(node);
                 
-                if(rowIndex == row && colIndex == col){
-                    TextArea textArea = (TextArea)node;
-                    text = textArea.getText();
+                if(rowIndex == row && colIndex == col)
+                {
+                    if(node instanceof TextArea)
+                    {
+                        TextArea textArea = (TextArea)node;
+                        text = textArea.getText();
+                    }
+                    else
+                    {
+                        JFXComboBox<String> cmbBox = (JFXComboBox)node;
+                        text = cmbBox.getValue();
+                    }
                     break;
                 }
             }    

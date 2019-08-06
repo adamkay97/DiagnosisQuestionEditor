@@ -1,6 +1,5 @@
 package Classes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Question 
@@ -9,13 +8,16 @@ public class Question
     private final String questionBehaviour;
     private final HashMap<String, String> questionText;
     private final HashMap<String, String> questionInstructions;
+    private final String questionRiskResponse;
     
-    public Question(int id, String behaviour, HashMap<String, String> qText, HashMap<String, String> instruction)
+    public Question(int id, String behaviour, HashMap<String, String> qText, 
+            HashMap<String, String> instruction, String riskResponse)
     {
         questionID = id;
         questionBehaviour = behaviour;
         questionText = qText;
         questionInstructions = instruction;
+        questionRiskResponse = riskResponse;
     }
     
     public int getQuestionId() { return questionID; }
@@ -27,4 +29,6 @@ public class Question
     
     public HashMap<String, String> getQuestionTextMap() { return questionText; }
     public HashMap<String, String> getQuestionInstructionsMap() { return questionInstructions; }
+    
+    public String getQuestionRiskResponse() { return questionRiskResponse; }
 }

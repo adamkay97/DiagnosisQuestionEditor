@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class QuestionSetManager 
 {
     public static final String DEFAULTSET = "M-CHAT-R/F";
+    private static boolean inEdit = false;
     
     private static ArrayList<String> questionLanguages;
     private static ArrayList<String> questionSets;
@@ -15,6 +16,7 @@ public class QuestionSetManager
     private static String currentEditSet;
     private static QuestionSet currentCreateSet;
     
+    public static void setInEdit(boolean edit) { inEdit = edit; }
     public static void setQuestionLanguages(ArrayList<String> languages) { questionLanguages = languages; }
     public static void setQuestionSets(ArrayList<String> qSets) { questionSets = qSets; }
     public static void setQuestionSetsMap(HashMap<String, QuestionSet> questions) { questionSetsMap = questions; }
@@ -40,6 +42,7 @@ public class QuestionSetManager
         return setLanguages;
     }
     
+    public static boolean getInEdit() { return inEdit; }
     public static ArrayList<String> getQuestionLanguages() { return questionLanguages; }
     public static HashMap<String, QuestionSet> getQuestionMap() { return questionSetsMap; }
     public static ArrayList<String> getQuestionSets() { return questionSets; }

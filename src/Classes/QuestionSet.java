@@ -10,13 +10,17 @@ public class QuestionSet
     private HashMap<Integer, Question> questionSet;
     private final ArrayList<String> activeLanguages;
     private String information;
+    private ScoringAlgorithm scoringAlgorithm;
     
-    public QuestionSet(String name, int numOfQs, HashMap<Integer, Question> qSet, ArrayList<String> languages) 
+    public QuestionSet(String name, int numOfQs, HashMap<Integer, Question> qSet, ArrayList<String> languages, 
+            String info, ScoringAlgorithm sa) 
     { 
         setName = name;
         numberOfQuestions = numOfQs;
         questionSet = qSet; 
         activeLanguages = languages;
+        information = info;
+        scoringAlgorithm = sa;
     }
     
     public void addNewActiveLanguage(String language) { activeLanguages.add(language); }
@@ -25,8 +29,10 @@ public class QuestionSet
     public int getNumberOfQuestions() { return numberOfQuestions; }
     public HashMap<Integer, Question> getQuestionSet() { return questionSet; }
     public ArrayList<String> getActiveLanguages() { return activeLanguages; }
-    public String getInformation() { return information; }    
+    public String getInformation() { return information; }
+    public ScoringAlgorithm getScoringAlgorithm() { return scoringAlgorithm; }
     
     public void setQuestionSet(HashMap<Integer, Question> qSet) { questionSet = qSet; }
     public void setInformation(String info) { information = info; }
+    public void setScoringAlgorithm(ScoringAlgorithm algorithm) { scoringAlgorithm = algorithm; }
 }
