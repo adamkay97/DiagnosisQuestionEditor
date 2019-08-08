@@ -23,6 +23,11 @@ public class GridPaneManager
     
     private int currentColCount;
     
+    //Global HashMap for the combobox containing the at risk response as 
+    //needs to be moved to end of grid when new languages are added.
+    HashMap<Integer, JFXComboBox> qRiskResponse;
+    Label riskHeader;
+    
     public GridPaneManager(QuestionSet questionSet, GridPane gridPane, boolean isEdit)
     {
         currentQuestionSet = questionSet;
@@ -44,8 +49,7 @@ public class GridPaneManager
         HashMap<Integer, Label> qNumMap = new HashMap<>();
         //HashMap for the text areas containing the Robot behaviour name
         HashMap<Integer, TextArea> qBehaviourMap = new HashMap<>();
-        //HashMap for the combobox containing the at risk response
-        HashMap<Integer, JFXComboBox> qRiskResponse = new HashMap<>();
+        qRiskResponse = new HashMap<>();
         
         //HashMap containing the language and HashMap with the TextAreas that hold the question text 
         HashMap<String, HashMap<Integer, TextArea>> qTextMap = new HashMap<>();
@@ -128,7 +132,8 @@ public class GridPaneManager
                 grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
             }
             
-            grdPnQuestionSet.add(createHeaderLabel("At Risk Response", 200), index++, 0);
+            riskHeader = createHeaderLabel("At Risk Response", 200);
+            grdPnQuestionSet.add(riskHeader, index++, 0);
             grdPnQuestionSet.getColumnConstraints().add(createColConstraint(200));
             
             //Set currentColCount for if new language columns are to be added
@@ -167,23 +172,42 @@ public class GridPaneManager
     
     public void addNewLanguageColumns(String language)
     {
+        removeAtRiskColumn();
+        
         String header = String.format("Text - %s (Required)", language);
-        grdPnQuestionSet.add(createHeaderLabel(header, 450), currentColCount, 0);
+        grdPnQuestionSet.add(createHeaderLabel(header, 450), currentColCount-1, 0);
         grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
 
         header = String.format("Instructions - %s", language);
-        grdPnQuestionSet.add(createHeaderLabel(header , 450), currentColCount+1, 0);
+        grdPnQuestionSet.add(createHeaderLabel(header , 450), currentColCount, 0);
         grdPnQuestionSet.getColumnConstraints().add(createColConstraint(450));
         
+        //Move At Risk Response column to the end for grid save purposes
+        grdPnQuestionSet.add(riskHeader, currentColCount+1, 0);
+        grdPnQuestionSet.getColumnConstraints().add(createColConstraint(200));
+
         for (int i = 1; i <= currentQuestionSet.getNumberOfQuestions(); i++) 
         {
              TextArea text = createTextArea("");
              TextArea instr = createTextArea("");
-             
-             grdPnQuestionSet.add(text, currentColCount, i);
-             grdPnQuestionSet.add(instr, currentColCount+1, i);
+
+             //Adds the text and instruction columns where the at risk currently is and 
+             //moves at risk to the end
+             grdPnQuestionSet.add(text, currentColCount-1, i);
+             grdPnQuestionSet.add(instr, currentColCount, i);
+             grdPnQuestionSet.add(qRiskResponse.get(i), currentColCount+1, i);
         }
         currentColCount += 2;
+    }
+    
+    private void removeAtRiskColumn()
+    {
+        grdPnQuestionSet.getChildren().remove(riskHeader);
+        
+        for (int i = 1; i <= currentQuestionSet.getNumberOfQuestions(); i++) 
+            grdPnQuestionSet.getChildren().remove(qRiskResponse.get(i));
+        
+        grdPnQuestionSet.getColumnConstraints().remove(currentColCount-1);
     }
     
     private TextArea createTextArea(String text)

@@ -19,6 +19,7 @@ public class StartContentController implements Initializable
 
     @FXML public void btnCreate_Action(ActionEvent event) 
     {
+        QuestionSetManager.setCurrentCreateSet(null);
         StageManager.loadContentScene(StageManager.CREATESET);
     }
 
