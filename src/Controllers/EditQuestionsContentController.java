@@ -4,6 +4,7 @@ import Managers.GridPaneManager;
 import Classes.QuestionSet;
 import Enums.ButtonTypeEnum;
 import Managers.DatabaseManager;
+import Managers.LogManager;
 import Managers.QuestionSetManager;
 import Managers.StageManager;
 import com.jfoenix.controls.JFXComboBox;
@@ -27,6 +28,8 @@ public class EditQuestionsContentController implements Initializable
     @FXML private GridPane grdPnQuestionSet;
     @FXML private ScrollPane scrlGridHolder;
     @FXML private JFXComboBox cmbBoxQuestionSet;
+    
+    private final LogManager logManager = new LogManager();
     
     private GridPaneManager gridPaneManager;
     private QuestionSet currentQuestionSet;
@@ -174,7 +177,7 @@ public class EditQuestionsContentController implements Initializable
             }
             catch(IOException ex)
             {
-                System.out.println("Error when loading Add Language Form - " + ex.getMessage());
+                logManager.ErrorLog("Error when loading Add Language Form - " + ex.getMessage());
             }
         }
         else

@@ -37,6 +37,8 @@ public class StageManager
     
     private static Scene rootScene;
     
+    private static final LogManager logManager = new LogManager();
+    
     /**
      * Loads the scene passed as a parameter into
      * the main content stack pane on the main form 
@@ -55,7 +57,7 @@ public class StageManager
         }
         catch(IOException ex) 
         {
-            System.out.println("Failed loading scene = " + ex.getMessage());
+            logManager.ErrorLog("Failed loading scene = " + ex.getMessage());
         }
     }
     
@@ -73,7 +75,7 @@ public class StageManager
         }
         catch(Exception ex) 
         {
-            System.out.println("Failed loading scene = " + ex.getMessage());
+            logManager.ErrorLog("Failed loading scene = " + ex.getMessage());
         }
     }
     
@@ -128,7 +130,7 @@ public class StageManager
         }
         catch(IOException ex)
         {
-            System.out.println("Failed loading pop up message - " + ex.getMessage());
+            logManager.ErrorLog("Failed loading pop up message - " + ex.getMessage());
         }
         return popupAnswer;
     }       
@@ -163,7 +165,7 @@ public class StageManager
         }
         catch(Exception ex)
         {
-            System.out.println("Failed loading other form - " + ex.getMessage());
+            logManager.ErrorLog("Failed loading other form - " + ex.getMessage());
         }
     }
     
@@ -189,7 +191,7 @@ public class StageManager
         }
         catch(Exception ex)
         {
-            System.out.println("Failed loading other form - " + ex.getMessage());
+            logManager.ErrorLog("Failed loading other form - " + ex.getMessage());
         }
     }
     

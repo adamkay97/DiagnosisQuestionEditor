@@ -1,6 +1,7 @@
 package QuestionEditor;
 
 import Managers.DatabaseManager;
+import Managers.LogManager;
 import Managers.SettingsManager;
 import Managers.StageManager;
 import java.io.File;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 
 public class QuestionEditor extends Application 
 {    
+    private final LogManager logManager = new LogManager();
+    
     public static void main(String[] args) {
         launch(args);
     }
@@ -56,7 +59,7 @@ public class QuestionEditor extends Application
         } 
         catch (URISyntaxException ex) 
         {
-            System.out.println("Failed when getting localised DatabasePath");
+            logManager.ErrorLog("Failed when getting localised DatabasePath");
         }
     }
 }

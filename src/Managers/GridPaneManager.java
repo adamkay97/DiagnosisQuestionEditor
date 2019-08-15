@@ -17,6 +17,7 @@ import javafx.scene.layout.RowConstraints;
 
 public class GridPaneManager 
 {
+    private final LogManager logManager = new LogManager();
     private QuestionSet currentQuestionSet;
     private final GridPane grdPnQuestionSet;
     private final boolean isEditContent;
@@ -166,7 +167,7 @@ public class GridPaneManager
         }
         catch(Exception ex)
         {
-            System.out.println("Failed when setting up gridpane - " + ex.getMessage());
+            logManager.ErrorLog("Failed when setting up gridpane - " + ex.getMessage());
         } 
     }
     

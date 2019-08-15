@@ -14,6 +14,9 @@
         <group>
             <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/Controllers/StartContentController.java</file>
             <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/Controllers/EditQuestionsContentController.java</file>
+            <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/Managers/DatabaseManager.java</file>
+            <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/questioneditor/QuestionEditor.java</file>
+            <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/Managers/SettingsManager.java</file>
             <file>file:/C:/Users/Adam/Documents/Degree/Third%20Year/Final%20Project/Question%20Editor%20Application/DiagnosisQuestionEditor/src/Managers/GridPaneManager.java</file>
         </group>
     </open-files>

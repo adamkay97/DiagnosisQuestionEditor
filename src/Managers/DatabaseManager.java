@@ -14,9 +14,9 @@ import java.util.HashMap;
 
 public class DatabaseManager 
 {
-    //private final String DBCONNSTRING = "/Database/FYP_Database.db";
     //private final String DBCONNSTRING = "C:/Users/Adam/Documents/Degree/Third Year/Final Project/Application/FYP_Database.db";
     private Connection conn;
+    private final LogManager logManager = new LogManager();
     
     public boolean connect() 
     {
@@ -26,14 +26,13 @@ public class DatabaseManager
         conn = null;
         try 
         {
-            //conn = DriverManager.getConnection("jdbc:sqlite::resource:" + getClass().getResource(DBCONNSTRING));
             conn = DriverManager.getConnection("jdbc:sqlite:" + DBCONNSTRING);
-            System.out.println("A connection to the SQLite db has been established.");    
+            logManager.InfoLog("A connection to the SQLite db has been established.");    
             return true;
         } 
         catch (SQLException e) 
         {    
-            System.out.println(e.getMessage());
+            logManager.ErrorLog(e.getMessage());
             return false;
         }
     }
@@ -92,7 +91,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when reading questions from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when reading questions from the db - " + ex.getMessage());
         }
         return null;
     }
@@ -115,7 +114,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when reading the Question Sets from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when reading the Question Sets from the db - " + ex.getMessage());
         }
     }
     
@@ -138,7 +137,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when reading the Languages from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when reading the Languages from the db - " + ex.getMessage());
         }
     }
     
@@ -162,7 +161,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-             System.out.println("Error when reading the question set information from the db - " + ex.getMessage());
+             logManager.ErrorLog("Error when reading the question set information from the db - " + ex.getMessage());
         }
         return null;
     }
@@ -205,7 +204,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-             System.out.println("Error when reading the Scoring algorithm data from the db - " + ex.getMessage());
+             logManager.ErrorLog("Error when reading the Scoring algorithm data from the db - " + ex.getMessage());
         }
         return null;
     }
@@ -233,7 +232,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when creating new Question Set table in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when creating new Question Set table in the db - " + ex.getMessage());
             success = false;
         }
         return success;
@@ -277,7 +276,7 @@ public class DatabaseManager
             }
             catch(SQLException ex)
             {
-                System.out.println("Error when inserting new question row to "
+                logManager.ErrorLog("Error when inserting new question row to "
                                 + "new question set in the db - " + ex.getMessage());
                 return false;
             }
@@ -296,7 +295,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when writing new Language to the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when writing new Language to the db - " + ex.getMessage());
         }
     }
     
@@ -311,7 +310,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when writing new Question Set Name to the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when writing new Question Set Name to the db - " + ex.getMessage());
         }
     }
     
@@ -331,7 +330,7 @@ public class DatabaseManager
             }
             catch(SQLException ex)
             {
-                System.out.println("Error when writing Set Name and Language to SetLanguage link table to the db - " + ex.getMessage());
+                logManager.ErrorLog("Error when writing Set Name and Language to SetLanguage link table to the db - " + ex.getMessage());
             }
         });
     }
@@ -351,7 +350,7 @@ public class DatabaseManager
             }
             catch(SQLException ex)
             {
-                System.out.println("Error when writing information data to the db - " + ex.getMessage());
+                logManager.ErrorLog("Error when writing information data to the db - " + ex.getMessage());
             }
         }
     }
@@ -388,7 +387,7 @@ public class DatabaseManager
             }
             catch(SQLException ex)
             {
-                System.out.println("Error when writing scoring algorithm data to the db - " + ex.getMessage());
+                logManager.ErrorLog("Error when writing scoring algorithm data to the db - " + ex.getMessage());
             }
         }
     }
@@ -427,7 +426,7 @@ public class DatabaseManager
             }
             catch(SQLException ex)
             {
-                System.out.println("Error when updating scoring algorithm data to the db - " + ex.getMessage());
+                logManager.ErrorLog("Error when updating scoring algorithm data to the db - " + ex.getMessage());
             }
         }
     }
@@ -454,7 +453,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when getting question set languages to the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when getting question set languages to the db - " + ex.getMessage());
         }
         return setLanguages;
     }
@@ -476,7 +475,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when checking language active in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when checking language active in the db - " + ex.getMessage());
         }
         return false;
     }
@@ -495,7 +494,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when checking if set name exists in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when checking if set name exists in the db - " + ex.getMessage());
         }
         return false;
     }
@@ -527,7 +526,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when dropping Question Set table in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when dropping Question Set table in the db - " + ex.getMessage());
         }
     }
     
@@ -543,7 +542,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when deleting a Question Set from Set/Language link table in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when deleting a Question Set from Set/Language link table in the db - " + ex.getMessage());
         }
     }
     
@@ -558,7 +557,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when deleting a Set Name from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when deleting a Set Name from the db - " + ex.getMessage());
         }
     }
     
@@ -573,7 +572,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when deleting a Language from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when deleting a Language from the db - " + ex.getMessage());
         }
     }
     
@@ -588,7 +587,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when deleting question information from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when deleting question information from the db - " + ex.getMessage());
         }
     }
     
@@ -604,7 +603,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when deleting scoring algorithm from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when deleting scoring algorithm from the db - " + ex.getMessage());
         }
     }
     
@@ -628,7 +627,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when gettting the num of rows from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when gettting the num of rows from the db - " + ex.getMessage());
         }
         
         return noOfRows;
@@ -646,7 +645,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when setting the sequence Id in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when setting the sequence Id in the db - " + ex.getMessage());
         }
     }
     
@@ -664,7 +663,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when decreasing the sequence ID in the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when decreasing the sequence ID in the db - " + ex.getMessage());
         }
     }
     
@@ -683,7 +682,7 @@ public class DatabaseManager
         }
         catch(SQLException ex)
         {
-            System.out.println("Error when getting the last inserted row from the db - " + ex.getMessage());
+            logManager.ErrorLog("Error when getting the last inserted row from the db - " + ex.getMessage());
         }
         return id;
     }
@@ -695,12 +694,12 @@ public class DatabaseManager
             if (conn != null)
             {
                 conn.close();
-                System.out.println("Successfully disconnected from the SQLite db.");
+                logManager.InfoLog("Successfully disconnected from the SQLite db.");
             }
         } 
         catch (SQLException ex) 
         {
-            System.out.println(ex.getMessage());
+            logManager.ErrorLog(ex.getMessage());
         }
     }
 }
